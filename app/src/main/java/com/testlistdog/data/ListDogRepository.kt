@@ -14,7 +14,7 @@ internal class ListDogRepository(
         emit(listDog)
     }
 
-    fun getDogImages(dogName: String): Flow<RemoteDogRandomImage> = flow {
+    fun getDogImages(): Flow<RemoteDogRandomImage> = flow {
         val randomDogImages = remote.getDogImageRemote()
         emit(randomDogImages)
     }

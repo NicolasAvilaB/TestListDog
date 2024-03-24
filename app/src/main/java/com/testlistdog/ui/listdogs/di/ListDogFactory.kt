@@ -1,4 +1,4 @@
-package com.testlistdog.ui.di
+package com.testlistdog.ui.listdogs.di
 
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.ViewModel

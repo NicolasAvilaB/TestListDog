@@ -18,14 +18,16 @@ internal class ListDogViewModel(
     private val repository: ListDogRepository
 ) : ViewModel() {
 
+    private val pageSize = 10
+
     fun getListDogWithImages(): Flow<ListDogUiState> = flow {
 
             val listDog = repository.getListsDog().first()
-            val dogNames = extractDogNames(listDog).take(10)
+            val dogNames = extractDogNames(listDog).take(pageSize)
             val imageStates = mutableListOf<String>()
 
             dogNames.map { dogName ->
-                val randomImage = repository.getDogImages(dogName).take(1).firstOrNull()
+                val randomImage = repository.getDogImages().take(1).firstOrNull()
                 randomImage?.let { imageState ->
                     imageStates.add(imageState.message)
                 }

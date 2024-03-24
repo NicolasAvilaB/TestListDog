@@ -3,7 +3,7 @@ package com.testlistdog.ui.navigation
 import com.testlistdog.presentation.listdogs.ListDogViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import com.testlistdog.ui.ListDogScreen
+import com.testlistdog.ui.listdogs.ListDogScreen
 
 internal fun NavGraphBuilder.listDog(
     viewModel: ListDogViewModel
