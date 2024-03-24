@@ -7,12 +7,9 @@ import retrofit2.http.GET
 
 internal interface ListDogWebService {
     @GET("api/breeds/list")
-    suspend fun getListDog(): List<RemoteListDog>
+    suspend fun getListDog(): RemoteListDog
 
     @GET("api/breeds/image/random")
     suspend fun getDogRandomImage(): RemoteDogRandomImage
-
-    @GET("api/breeds/list")
-    suspend fun getListDogJsonResponse(): String
 
 }

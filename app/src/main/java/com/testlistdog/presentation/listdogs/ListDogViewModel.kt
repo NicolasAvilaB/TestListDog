@@ -1,52 +1,50 @@
 package com.testlistdog.presentation.listdogs
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.testlistdog.data.ListDogRepository
 import com.testlistdog.data.models.RemoteListDog
 import com.testlistdog.presentation.listdogs.events.ListDogUiState
-import com.testlistdog.presentation.listdogs.events.ListDogUiState.LoadingUiState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.flatMapConcat
-import kotlinx.coroutines.flow.flatMapMerge
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.last
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.singleOrNull
+import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.take
 import org.json.JSONArray
-import org.json.JSONObject
 
 internal class ListDogViewModel(
     private val repository: ListDogRepository
 ) : ViewModel() {
 
-    fun getListDogWithImages(): Flow<ListDogUiState> = flow<ListDogUiState> {
+    fun getListDogWithImages(): Flow<ListDogUiState> = flow {
 
-        repository.getListsDog()
-            .map { listDog ->
-                val dogNames = mutableListOf<String>()
-                listDog.forEach { remoteDog ->
-                    remoteDog.message?.let {
-                        dogNames.add(it)
-                    }
+            val listDog = repository.getListsDog().first()
+            val dogNames = extractDogNames(listDog).take(10)
+            val imageStates = mutableListOf<String>()
+
+            dogNames.map { dogName ->
+                val randomImage = repository.getDogImages(dogName).take(1).firstOrNull()
+                randomImage?.let { imageState ->
+                    imageStates.add(imageState.message)
                 }
-                dogNames
             }
-            .flatMapConcat { dogNames ->
-                repository.getDogImages()
-                    .map { randomImage ->
-                        dogNames to randomImage
-                    }
-            }
-            .collect { (dogNames, randomImage) ->
-                var availableImages = randomImage.message
-                emit(ListDogUiState.DisplayListDogUiState(dogNames, availableImages))
-            }
-    }.catch { emit(ListDogUiState.ErrorUiState(it)) }
+        emit(ListDogUiState.DisplayListDogUiState(dogNames, imageStates))
 
+    }.catch {  e ->
+        ListDogUiState.ErrorUiState(e)
+    }.flowOn(Dispatchers.IO)
+
+    private fun extractDogNames(listDog: RemoteListDog): List<String> {
+        val dogNames = mutableListOf<String>()
+        listDog.message?.let {
+            val jsonArray = JSONArray(it)
+            for (i in 0 until jsonArray.length()) {
+                val name = jsonArray.getString(i)
+                dogNames.add(name)
+            }
+        }
+        return dogNames
+    }
 }

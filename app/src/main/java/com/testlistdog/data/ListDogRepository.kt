@@ -9,12 +9,12 @@ import kotlinx.coroutines.flow.flow
 internal class ListDogRepository(
     private val remote: ListDogSourceRemote
 ) {
-    fun getListsDog(): Flow<List<RemoteListDog>> = flow {
+    fun getListsDog(): Flow<RemoteListDog> = flow {
         val listDog = remote.getListDogRemote()
         emit(listDog)
     }
 
-    fun getDogImages(): Flow<RemoteDogRandomImage> = flow {
+    fun getDogImages(dogName: String): Flow<RemoteDogRandomImage> = flow {
         val randomDogImages = remote.getDogImageRemote()
         emit(randomDogImages)
     }

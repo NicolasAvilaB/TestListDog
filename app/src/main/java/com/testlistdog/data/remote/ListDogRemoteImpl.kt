@@ -9,7 +9,7 @@ internal class ListDogRemoteImpl(
     private val webService: ListDogWebService
 ) : ListDogSourceRemote {
     
-    override suspend fun getListDogRemote(): List<RemoteListDog> =
+    override suspend fun getListDogRemote(): RemoteListDog =
         webService.getListDog()
 
     override suspend fun getDogImageRemote(): RemoteDogRandomImage =
