@@ -12,7 +12,9 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.take
 import kotlinx.coroutines.launch
 import org.json.JSONArray
@@ -36,7 +38,7 @@ internal class ListDogViewModel(
         emit(ListDogUiState.DisplayListDogUiState(dogNames, imageStates))
 
     }.catch {  e ->
-        ListDogUiState.ErrorUiState(e)
+        flowOf(ListDogUiState.ErrorUiState(e))
     }
 
     fun extractDogNames(listDog: RemoteListDog): List<String> {

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Raza de perros</string>
+    <string name="retry">Reintentar</string>
+    <string name="error_ocurred">¡Ups!, algo a ocurrido, por favor reintentelo nuevamente!</string>
 </resources>
