@@ -1,26 +1,27 @@
 package com.testlistdog.presentation.listdogs
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.testlistdog.data.ListDogRepository
 import com.testlistdog.data.models.RemoteListDog
 import com.testlistdog.presentation.listdogs.events.ListDogUiState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.launch
 import org.json.JSONArray
 
 internal class ListDogViewModel(
     private val repository: ListDogRepository
 ) : ViewModel() {
 
-    private val pageSize = 10
-
-    fun getListDogWithImages(): Flow<ListDogUiState> = flow {
+    fun getListDogWithImages(pageSize: Int): Flow<ListDogUiState> = flow {
 
             val listDog = repository.getListsDog().first()
             val dogNames = extractDogNames(listDog).take(pageSize)
@@ -36,9 +37,9 @@ internal class ListDogViewModel(
 
     }.catch {  e ->
         ListDogUiState.ErrorUiState(e)
-    }.flowOn(Dispatchers.IO)
+    }
 
-    private fun extractDogNames(listDog: RemoteListDog): List<String> {
+    fun extractDogNames(listDog: RemoteListDog): List<String> {
         val dogNames = mutableListOf<String>()
         listDog.message?.let {
             val jsonArray = JSONArray(it)
