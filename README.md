@@ -7,3 +7,4 @@ El resultado se ve plasmado en un LazyVerticalGrid con 10  primeras razas de per
 La arquitectura de este proyecto se basó en el modelo MVVM, Clean Architecture, DI (Inyección de dependencia y derivada), patrón Singleton, SOLID, etc, para este ejemplo se crearon 2 Test.
 
 
+![listaperros](https://github.com/NicolasAvilaB/TestListDog/assets/36216299/134f501f-7b4b-4f55-8ab3-80863c8f6a8f)
