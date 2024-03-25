@@ -4,7 +4,7 @@ Proyecto desarrollado usando como base los endpoints de ejemplo del sitio **http
 
 El resultado se ve plasmado en un LazyVerticalGrid con 10  primeras razas de perros, si pinchas por cada elemento el nombre de cada raza se mostrará a través de un Toast, si el usuario llega al final, se añadiran 10 elementos mas a la lista.
 
-La arquitectura de este proyecto se basó en el modelo MVVM, Clean Architecture, DI (Inyección de dependencia y derivada), patrón Singleton, SOLID, etc, para este ejemplo se crearon 2 Test.
+La arquitectura de este proyecto se basó en el modelo MVVM, Clean Architecture, DI (Inyección de dependencia y derivada), patrón Singleton, SOLID, etc, para este ejemplo se crearon 2 Test unitarios.
 
 
 ![listaperros](https://github.com/NicolasAvilaB/TestListDog/assets/36216299/134f501f-7b4b-4f55-8ab3-80863c8f6a8f)
